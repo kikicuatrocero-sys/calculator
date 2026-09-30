@@ -1,4 +1,37 @@
 * {
     margin: 0;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1 {
+    margin: 20px;
+}
+
+.container-calculator {
+    background-color: darkcyan;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    border: 5px solid black;
+    max-width: 1000px;
+    min-height: 1300px;
+}
+.header-calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid black;
+    height: 180px 
+}
+.content {
+    display: flex;
+    justify-content: flex-end;
+    background-color: white;
+    margin-left: 40px;
+    margin-right: 40px;
+    overflow: hidden;
+}
+p {
+    font-size: 60px;
 }

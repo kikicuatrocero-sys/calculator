@@ -8,21 +8,22 @@ h1 {
 }
 
 .container-calculator {
-    background-color: darkcyan;
+    background-color: blueviolet;
     display: flex;
     margin-left: auto;
     margin-right: auto;
     flex-direction: column;
     border: 5px solid black;
-    max-width: 1000px;
-    min-height: 1300px;
+    max-width: 500px;
+    min-height: 530px;
+    box-shadow: 10px 5px 5px black;
 }
 .header-calculator {
     display: flex;
     flex-direction: column;
     justify-content: center;
     border: 1px solid black;
-    height: 180px 
+    height: 80px 
 }
 .content {
     display: flex;
@@ -33,5 +34,6 @@ h1 {
     overflow: hidden;
 }
 p {
-    font-size: 60px;
+    margin-right: 5px;
+    font-size:40px;
 }

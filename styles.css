@@ -3,6 +3,14 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+html,
+body {
+    height: 100%;
+    /* Ensure parent elements have height */
+    margin: 0;
+    /* Remove default margin */
+}
+
 h1 {
     margin: 20px;
 }
@@ -14,17 +22,19 @@ h1 {
     margin-right: auto;
     flex-direction: column;
     border: 5px solid black;
-    max-width: 500px;
-    min-height: 530px;
+    max-width: 300px;
+    min-height: 255px;
     box-shadow: 10px 5px 5px black;
 }
+
 .header-calculator {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid black;
-    height: 80px 
+    border-bottom: 1px solid black;
+    height: 80px
 }
+
 .content {
     display: flex;
     justify-content: flex-end;
@@ -33,7 +43,28 @@ h1 {
     margin-right: 40px;
     overflow: hidden;
 }
+
 p {
     margin-right: 5px;
-    font-size:40px;
+    font-size: 40px;
+}
+
+.body-calculator {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-top: 20px;
+}
+
+.body-calculator button {
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 22px;
+    height: 30px;
+    /*If you like, we can increase the width to 22%, 
+    but I think 20% is fine; 
+    the idea is that the four buttons, along with the gap and margins, 
+    shouldn't take up 100% of the width */ 
+    width: 20%;
 }

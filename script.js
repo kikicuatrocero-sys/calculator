@@ -19,7 +19,15 @@ const initOperation = function (numberA, numberB, operand) {
       input.textContent = numberA * numberB;
       break;
     case "/":
-      input.textContent = numberA / numberB;
+      let result = numberA / numberB;
+      if (isNaN(result)) {
+        input.textContent = "Nice try🗣️";
+        firstOperand = null;
+        secondOperand = null;
+        operator = null;
+        break;
+      }
+      input.textContent = result;
       break;
     default:
       break;
@@ -28,52 +36,73 @@ const initOperation = function (numberA, numberB, operand) {
 
 /*
 handleButtonClick()
-
-This function manages calculator input and determines
-whether to perform an operation based on the button pressed.
-
-1. If the button is neither an operator nor '=', then:
-- If the current input is '0', replace that '0' with the button's content.
-- Otherwise, concatenate the button's content to the current input.
-
-2. If it is an operator and we are not currently waiting for an operation (`waitingForSecondOperand` is false):
-- Store the current input in a variable (`firstOperand`).
-- Store the operation type based on the button's content.
-- Reset the input to '0' (clear it).
-- Update the `waitingForSecondOperand` flag to indicate that we are now waiting
-for a second operand.
-
-The second operand is captured via the current input; we obtain it when '=' is pressed.
-3. If it is '=' and we are waiting for an operation:
-- Store the current input value.
-- Call `initOperation` to execute the operation, passing in the two numbers and the operation type.
-- Indicate that we need to start over and wait for a new operand (`firstOperand`).
 */
 const handleButtonClick = function (button) {
-  if (!operands.includes(button.textContent) && button.textContent != "=") {
-    if (input.textContent == "0" && button.textContent != ".") {
-      input.textContent = button.textContent;
+  const value = button.textContent;
+
+  if (!operands.includes(value) && value != "=") {
+    if (waitingForSecondOperand) {
+      input.textContent = value;
+      waitingForSecondOperand = false;
+    } else if (
+      input.textContent == "0" ||
+      (isNaN(input.textContent) && value != ".")
+    ) {
+      input.textContent = value;
     } else {
-      input.textContent += button.textContent;
+      input.textContent += value;
     }
+    return;
   }
-  if (operands.includes(button.textContent) && !waitingForSecondOperand) {
-    firstOperand = parseFloat(input.textContent);
-    operator = button.textContent;
-    input.textContent = "0";
+  if (operands.includes(value)) {
+    //Caso A: Presiono dos operadores seguidos, solo actualizamos el operador
+    if (waitingForSecondOperand) {
+      operator = value;
+      return;
+    }
+    //Caso B: Presiono Numero + Numero + (Calcula)
+    if (operator !== null) {
+      secondOperand = parseFloat(input.textContent);
+      initOperation(firstOperand, secondOperand, operator);
+      firstOperand = parseFloat(input.textContent);
+    } else {
+      //Caso C: Es el primero operador que presionamos
+      firstOperand = parseFloat(input.textContent);
+    }
+    operator = value;
     waitingForSecondOperand = true;
+    return;
   }
-  if (button.textContent == "=" && waitingForSecondOperand) {
+
+  //3.Si presionamos igual
+  if (value === "=") {
+    if (operator === null) return; //Ignora click si no hay operador
     secondOperand = parseFloat(input.textContent);
     initOperation(firstOperand, secondOperand, operator);
+
+    firstOperand = parseFloat(input.textContent);
+    operator = null;
     secondOperand = null;
-    waitingForSecondOperand = false;
+    waitingForSecondOperand = true;
   }
 };
 
 const buttons = document.querySelectorAll("button");
-buttons.forEach((button) =>
-  button.addEventListener("click", () => {
-    handleButtonClick(button);
-  }),
-);
+buttons.forEach((button) => {
+  if (button.id !== "reset") {
+    button.addEventListener("click", handleButtonClick(button));
+  }
+});
+
+const resetCalculator = function () {
+  firstOperand = null;
+  secondOperand = null;
+  operator = null;
+  waitingForSecondOperand = false;
+  input.textContent = "0";
+};
+
+const resetButton = document.querySelector("#reset");
+if (resetButton) {
+  resetButton.addEventListener("click", resetCalculator);
+}
